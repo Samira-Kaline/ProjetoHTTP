@@ -1,11 +1,16 @@
-from flask import Flask
+from flask import Flask,jsonify,render_template
+from dados import clientes
 
 app = Flask(__name__)
 
+@app.route('/Inicio',methods=['GET'])
+def Inicio():
+    return render_template('main.html')
+
 #Listar
-@app.route('/todo/getall',methods=['GET'])
+@app.route('/ListarCliente',methods=['GET'])
 def ListarClientes():
-    return "Listar Clientes"
+    return jsonify(clientes)
 
 #Criar
 @app.route('/todo/create',methods=['POST'])
@@ -21,3 +26,5 @@ def AtualizarCliente():
 @app.route('/todo/delete',methods=['DELETE'])
 def DeletarCliente():
     return 'Deletar Cliente'
+
+app.run(debug=True)
