@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request
+from flask import Flask,request
 from dados import clientes
 import json
 app = Flask(__name__)
@@ -8,21 +8,26 @@ app = Flask(__name__)
 def ListarClientes():
     return {"data":clientes}
 
-#Criar
-@app.route('/Cadastrar',methods=['POST'])
-def CadastrarCliente():
+#Cadastrar
+@app.route('/CadastrarCliente',methods=['POST'])
+def CriarCliente():
     novo_cliente = json.loads(request.data)
     clientes.append(novo_cliente)
-    return jsonify("Cadastrado com sucesso")
+    return "Cadastrado com sucesso"
 
 #Atualizar
-@app.route('/todo/update',methods=['UPDATE'])
-def AtualizarCliente():
-    return 'Atualizar Dados do Cliente'
+# Ao colocar a URL coloque /id_do_cliente
+@app.route('/AtualizarCliente/<int:id>',methods=['PUT'])
+def AtualizarCliente(id:int):
+    update_cliente = json.loads(request.data)
+    clientes[id] = update_cliente
+    return 'Atualização Completa'
 
 #Deletar
-@app.route('/todo/delete',methods=['DELETE'])
-def DeletarCliente():
-    return 'Deletar Cliente'
+# Ao colocar a URL coloque /id_do_cliente
+@app.route('/DeletarCliente/<int:id>',methods=['DELETE'])
+def DeletarCliente(id:int):
+    del clientes[id]
+    return 'Cliente Deletado'
 
 app.run(debug=True)
