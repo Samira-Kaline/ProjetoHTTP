@@ -1,21 +1,19 @@
-from flask import Flask,jsonify,render_template
+from flask import Flask,jsonify,request
 from dados import clientes
-
+import json
 app = Flask(__name__)
 
-@app.route('/Inicio',methods=['GET'])
-def Inicio():
-    return render_template('main.html')
-
 #Listar
-@app.route('/ListarCliente',methods=['GET'])
+@app.route('/ListarClientes',methods=['GET'])
 def ListarClientes():
-    return jsonify(clientes)
+    return {"data":clientes}
 
 #Criar
-@app.route('/todo/create',methods=['POST'])
-def CriarCliente():
-    return 'Criar novo Cliente'
+@app.route('/Cadastrar',methods=['POST'])
+def CadastrarCliente():
+    novo_cliente = json.loads(request.data)
+    clientes.append(novo_cliente)
+    return jsonify("Cadastrado com sucesso")
 
 #Atualizar
 @app.route('/todo/update',methods=['UPDATE'])
